@@ -45,7 +45,7 @@ public class Futbolista {
 		dBObjectFutbolista.append("apellidos", this.getApellidos());
 		dBObjectFutbolista.append("edad", this.getEdad());
 		dBObjectFutbolista.append("posicion", this.getPosiciones());
-		dBObjectFutbolista.append("profesional", this.getProfesional());
+		dBObjectFutbolista.append("profesional", this.isProfesional());
 		
 		return dBObjectFutbolista;
 	}
@@ -90,12 +90,8 @@ public class Futbolista {
 		this.profesional = profesional;
 	}
 
-	public Boolean getProfesional() {
-		return profesional;
+	@Override
+	public String toString() {
+		return "nombre: " + nombre + " apellidos: " + apellidos + " edad: " + edad + " posicion: " + posicion + " profesional: " + profesional;
 	}
-
-	public void setProfesional(Boolean profesional) {
-		this.profesional = profesional;
-	}
-	
 }

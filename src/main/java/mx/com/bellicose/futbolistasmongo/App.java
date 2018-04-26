@@ -2,6 +2,7 @@ package mx.com.bellicose.futbolistasmongo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -38,9 +39,9 @@ public class App
     	
 //    	DAO leer
     	FutbolistaDAO dao = new FutbolistaDAO();
-    	DBCursor leer = dao.leer();
+    	List<Futbolista> leer = dao.leer();
     	System.out.println("Lectura de futbolistas");
-    	for (DBObject dbObject : leer) {
+    	for (Futbolista dbObject : leer) {
 			System.out.println(dbObject.toString());
 		}
     	

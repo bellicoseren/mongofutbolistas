@@ -1,5 +1,8 @@
 package mx.com.bellicose.futbolistasmongo.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -7,6 +10,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
+import mx.com.bellicose.futbolistasmongo.Utils;
 import mx.com.bellicose.futbolistasmongo.dto.Futbolista;
 
 public class FutbolistaDAO {
@@ -17,7 +21,7 @@ public class FutbolistaDAO {
 	MongoClient mongoClient = new MongoClient();
 	
 	
-	public DBCursor leer() {
+	public List<Futbolista> leer() {
 
 
 		// Conexión a la base de datos
@@ -27,7 +31,7 @@ public class FutbolistaDAO {
 		// Obtener la collection
 		collection = db.getCollection("futbolistas");
 
-		
+		List<Futbolista> futbolistas = new ArrayList<>();
 		
 		// READ Leer todos los documentos de la base de datos
 		int numDocumentos = (int) collection.getCount();
@@ -37,12 +41,14 @@ public class FutbolistaDAO {
 		try {
 			while (cursor.hasNext()) {
 				System.out.println(cursor.next().toString());
+				DBObject dbObject = cursor.next();
+				futbolistas.add((Futbolista) Utils.fromDBObject(dbObject, Futbolista.class));
 			}
 		} finally {
 			cursor.close();
 		}
 		
-		return cursor;
+		return futbolistas;
 	}
 	
 	
