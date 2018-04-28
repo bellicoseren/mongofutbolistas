@@ -15,33 +15,32 @@ import mx.com.bellicose.futbolistasmongo.dto.Futbolista;
 
 public class FutbolistaDAO {
 
-	public DBCursor cursor = null;
-	public DBCollection collection = null;
-	// Conexión al Servidor de MongoDB
-	MongoClient mongoClient = new MongoClient();
+	private MongoClient mongoClient = new MongoClient();
+	private DBCursor cursor = null;
+	private DBCollection collection = null;
 	
 	
+	/*
+	 *  READ Leer todos los futbolistas de la base de datos
+	 */
 	public List<Futbolista> leer() {
 
 
-		// Conexión a la base de datos
 		@SuppressWarnings("deprecation")
 		DB db = mongoClient.getDB("futbol");
 
-		// Obtener la collection
 		collection = db.getCollection("futbolistas");
 
 		List<Futbolista> futbolistas = new ArrayList<>();
 		
-		// READ Leer todos los documentos de la base de datos
 		int numDocumentos = (int) collection.getCount();
 		System.out.println("Hay " + numDocumentos + " en la colección");
 
 		cursor = collection.find();
 		try {
 			while (cursor.hasNext()) {
-				System.out.println(cursor.next().toString());
 				DBObject dbObject = cursor.next();
+				System.out.println(dbObject.toString());
 				futbolistas.add((Futbolista) Utils.fromDBObject(dbObject, Futbolista.class));
 			}
 		} finally {
@@ -51,6 +50,18 @@ public class FutbolistaDAO {
 		return futbolistas;
 	}
 	
+	
+	/*
+	 * CREATE un futbolista a la base de datos
+	 */
+	public void agregar(Futbolista futbolista){
+		@SuppressWarnings("deprecation")
+		DB db = mongoClient.getDB("futbol");
+		collection = db.getCollection("futbolistas");
+		
+		collection.insert(futbolista.toDbObjectFutbolista());
+		System.out.println("Registro agregado");
+	}
 	
 	
 	public DBCursor consultaPosicion(){
